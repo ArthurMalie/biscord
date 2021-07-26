@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Biscord - Register</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <div class="form-container">
+        <form th:action="@{/}" method="GET">
+            <input type="submit" value="Accueil" id="home-chat"/>
+        </form>
+        <h2>Créez votre compte</h2>
+
+        <form action="#" th:action="@{/registration}" th:object="${userForm}" method="POST" modelAttribute="userForm">
+            <label><b>Identifiant</b></label>
+            <input type="text" th:field="*{username}" placeholder="Choisissez un pseudo" autofocus="true"
+                   class="form-input" required>
+            <p th:if="${#fields.hasErrors('username')}" class="form-error">Pseudo invalide</p>
+
+            <label><b>Mot de passe</b></label>
+            <input type="password" th:field="*{password}" placeholder="Choisissez un mot de passe" class="form-input"
+                   required>
+            <p th:if="${#fields.hasErrors('password')}" class="form-error">Mot de passe invalide</p>
+
+            <label><b>Confirmation mot de passe</b></label>
+            <input type="password" th:field="*{passwordConfirm}" placeholder="Confirmez le mot de passe"
+                   class="form-input" required>
+            <p th:if="${#fields.hasErrors('passwordConfirm')}" class="form-error">Mots de passes différents</p>
+
+            <label><b>Compte modérateur</b></label>
+            <input type="checkbox" th:field="*{moderator}">
+
+            <input type="submit" value="Valider" class="form-button">
+            <a href="/login" class="link-right">Se connecter</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Biscord - Login</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div>
+    <div class="form-container">
+        <form th:action="@{/}" method="GET">
+            <input type="submit" value="Accueil" id="home-chat"/>
+        </form>
+        <h2>Connexion</h2>
+
+        <form action="#" th:action="@{/login}" method="POST">
+            <label><b>Identifiant</b></label>
+            <input name="username" type="text" placeholder="Entrez votre pseudo" autofocus="true" class="form-input"
+                   required/>
+
+            <label><b>Mot de passe</b></label>
+            <input name="password" type="password" placeholder="Entrez votre mot de passe" class="form-input" required/>
+
+            <span th:text="${error}" class="form-error"/>
+
+            <input type="submit" value="Connexion" class="form-button"/>
+            <a href="/registration" class="link-right">Créer un compte</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

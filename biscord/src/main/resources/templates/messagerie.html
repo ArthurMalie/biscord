@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Biscord - Messagerie</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div id="wrapper">
+    <div id="wrapper-flex">
+        <div id="menu">
+            <form th:action="@{/}" method="GET">
+                <input type="submit" value="Accueil" id="home-chat"/>
+            </form>
+            <form th:action="@{/logout}" method="POST">
+                <input type="submit" value="Déconnexion" id="logout-chat"/>
+            </form>
+
+              <h3 class="welcome">Connecté en tant que
+              <span sec:authentication="name" style="color:#04AA6D"/>
+            </h3>
+            <span sec:authorize="hasAuthority('moderator')" class="moderator"> Vous êtes modérateur.</span>
+
+
+        </div>
+
+        <div id="chatbox">
+            <div th:each="msg:${msgList}">
+
+                <div class="chat-container"
+                     th:classappend="${msg.author.username == currentUser ? 'user-msg' : 'other-msg'}">
+
+                    <span th:text="${msg.author.username}" id="msg-username"></span>
+                    <span th:if="${msg.author.moderator}" class="moderator"> (modérateur)</span>
+
+                    <form sec:authorize="hasAuthority('moderator')" action="#"
+                          th:action="@{messagerie/delete/{id}(id = ${msg.id})}" method="post" style="float:right">
+                        <input type="submit" value="Supprimer" id="delete-button">
+                    </form>
+
+                    <div th:each="link:${msg.detectURLs()}">
+                        <img th:src="${link}" class="msg-image"/>
+                    </div>
+                    <p th:text="${msg.content}" id="msg-content"></p>
+                    <span id="msg-time" th:text="${msg.timestamp}"></span>
+                </div>
+            </div>
+        </div>
+
+
+        <form action="#" th:action="@{/messagerie}" th:object="${newMessage}" method="post" modelAttribute="newMessage"
+              id="new-message-form">
+
+                <input type="text" th:field="*{content}" id="user-message" autofocus="true" placeholder="Envoyer un message...">
+                <input type="submit" value="Envoyer" id="send-button">
+
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+    const element = document.getElementById("chatbox");
+    element.scrollTop = element.scrollHeight;
+    document.getElementById('user-message').value = ''
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Biscord - Home</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div sec:authorize="isAuthenticated()" class="home-container">
+    <h1>Bonjour, <span sec:authentication="name" style="color:#04AA6D"/>.</h1>
+
+    <form th:action="@{/messagerie}" method="GET">
+        <input type="submit" value="Entrer sur Biscord" class="enter-button"/>
+    </form>
+
+    <form th:action="@{/logout}" method="POST">
+        <input type="submit" value="Déconnexion" class="logout"/>
+    </form>
+</div>
+
+<div sec:authorize="isAnonymous()" class="home-container">
+    <h2>Bienvenue sur <span style="color:#04AA6D">Biscord</span> !</h2>
+
+    <form th:action="@{/messagerie}" method="GET">
+        <input type="submit" value="Se connecter" class="enter-button"/>
+    </form>
+
+    <form th:action="@{/registration}" method="GET">
+        <input type="submit" value="Créer un compte" class="logout"/>
+    </form>
+</div>
+
+
+</body>
+</html>
